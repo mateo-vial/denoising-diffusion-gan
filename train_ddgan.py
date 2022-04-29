@@ -21,6 +21,8 @@ import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10
 from datasets_prep.lsun import LSUN
 from datasets_prep.stackmnist_data import StackedMNIST, _data_transforms_stacked_mnist
+from torchvision.datasets import MNIST
+from datasets_prep.mnist_data import _data_transforms_mnist
 from datasets_prep.lmdb_datasets import LMDBDataset
 
 
@@ -211,7 +213,11 @@ def train(rank, gpu, args):
     
     elif args.dataset == 'stackmnist':
         train_transform, valid_transform = _data_transforms_stacked_mnist()
-        dataset = StackedMNIST(root='./data', train=True, download=False, transform=train_transform)
+        dataset = StackedMNIST(root='./data', train=True, download=True, transform=train_transform)
+
+    elif args.dataset == 'mnist':
+        train_transform, valid_transform = _data_transforms_mnist()
+        dataset = MNIST(root='./data', train=True, download=True, transform=train_transform)
         
     elif args.dataset == 'lsun':
         
@@ -245,7 +251,7 @@ def train(rank, gpu, args):
     data_loader = torch.utils.data.DataLoader(dataset,
                                                batch_size=batch_size,
                                                shuffle=False,
-                                               num_workers=4,
+                                               num_workers=2,
                                                pin_memory=True,
                                                sampler=train_sampler,
                                                drop_last = True)
@@ -253,7 +259,7 @@ def train(rank, gpu, args):
     netG = NCSNpp(args).to(device)
     
 
-    if args.dataset == 'cifar10' or args.dataset == 'stackmnist':    
+    if args.dataset == 'cifar10' or args.dataset == 'stackmnist' or args.dataset == 'mnist':    
         netD = Discriminator_small(nc = 2*args.num_channels, ngf = args.ngf,
                                t_emb_dim = args.t_emb_dim,
                                act=nn.LeakyReLU(0.2)).to(device)
