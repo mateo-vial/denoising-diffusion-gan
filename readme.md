@@ -1,4 +1,5 @@
-# Official PyTorch implementation of "Tackling the Generative Learning Trilemma with Denoising Diffusion GANs" [(ICLR 2022 Spotlight Paper)](https://arxiv.org/abs/2112.07804) #
+Note : this is a slight modification of the original repository which can be found at https://github.com/NVlabs/denoising-diffusion-gan
+# UnOfficial PyTorch implementation of "Tackling the Generative Learning Trilemma with Denoising Diffusion GANs" [(ICLR 2022 Spotlight Paper)](https://arxiv.org/abs/2112.07804) #
 
 <div align="center">
   <a href="https://xavierxiao.github.io/" target="_blank">Zhisheng&nbsp;Xiao</a> &emsp; <b>&middot;</b> &emsp;
